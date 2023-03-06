@@ -1,14 +1,10 @@
-/*
- * 
- * This is a dialog for adding new Employees and saving records to file
- * 
+/* Student Name: Megan Cash
+ * Student Number: C19317723
  * */
-
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,10 +19,12 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 public class AddRecordDialog extends JDialog implements ActionListener {
+	EmployeeDetails parent;
 	JTextField idField, ppsField, surnameField, firstNameField, salaryField;
 	JComboBox<String> genderCombo, departmentCombo, fullTimeCombo;
+	Color red = new Color(255,150,150);
 	JButton save, cancel;
-	EmployeeDetails parent;
+	
 	// constructor for add record dialog
 	public AddRecordDialog(EmployeeDetails parent) {
 		setTitle("Add Record");
@@ -34,16 +32,15 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		this.parent = parent;
 		this.parent.setEnabled(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
 		JScrollPane scrollPane = new JScrollPane(dialogPane());
 		setContentPane(scrollPane);
-		
+
 		getRootPane().setDefaultButton(save);
-		
+
 		setSize(500, 370);
 		setLocation(350, 250);
 		setVisible(true);
-	}// end AddRecordDialog
+	}
 
 	// initialize dialog container
 	public Container dialogPane() {
@@ -57,7 +54,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		empDetails.add(new JLabel("ID:"), "growx, pushx");
 		empDetails.add(idField = new JTextField(20), "growx, pushx, wrap");
 		idField.setEditable(false);
-		
+
 
 		empDetails.add(new JLabel("PPS Number:"), "growx, pushx");
 		empDetails.add(ppsField = new JTextField(20), "growx, pushx, wrap");
@@ -99,8 +96,8 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 					field.setDocument(new JTextFieldLimit(9));
 				else
 				field.setDocument(new JTextFieldLimit(20));
-			}// end else if
-		}// end for
+			}
+		}
 		idField.setText(Integer.toString(this.parent.getNextFreeId()));
 		return empDetails;
 	}
@@ -126,47 +123,47 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		boolean valid = true;
 		// if any of inputs are in wrong format, colour text field and display message
 		if (ppsField.getText().equals("")) {
-			ppsField.setBackground(new Color(255, 150, 150));
+			ppsField.setBackground(red);
 			valid = false;
-		}// end if
+		}
 		if (this.parent.correctPps(this.ppsField.getText().trim(), -1)) {
-			ppsField.setBackground(new Color(255, 150, 150));
+			ppsField.setBackground(red);
 			valid = false;
-		}// end if
+		}
 		if (surnameField.getText().isEmpty()) {
-			surnameField.setBackground(new Color(255, 150, 150));
+			surnameField.setBackground(red);
 			valid = false;
-		}// end if
+		}
 		if (firstNameField.getText().isEmpty()) {
-			firstNameField.setBackground(new Color(255, 150, 150));
+			firstNameField.setBackground(red);
 			valid = false;
-		}// end if
+		}
 		if (genderCombo.getSelectedIndex() == 0) {
-			genderCombo.setBackground(new Color(255, 150, 150));
+			genderCombo.setBackground(red);
 			valid = false;
-		}// end if
+		}
 		if (departmentCombo.getSelectedIndex() == 0) {
-			departmentCombo.setBackground(new Color(255, 150, 150));
+			departmentCombo.setBackground(red);
 			valid = false;
-		}// end if
+		}
 		try {// try to get values from text field
 			Double.parseDouble(salaryField.getText());
 			// check if salary is greater than 0
 			if (Double.parseDouble(salaryField.getText()) < 0) {
-				salaryField.setBackground(new Color(255, 150, 150));
+				salaryField.setBackground(red);
 				valid = false;
-			}// end if
-		}// end try
+			}
+		}
 		catch (NumberFormatException num) {
-			salaryField.setBackground(new Color(255, 150, 150));
+			salaryField.setBackground(red);
 			valid = false;
 		}// end catch
 		if (fullTimeCombo.getSelectedIndex() == 0) {
-			fullTimeCombo.setBackground(new Color(255, 150, 150));
+			fullTimeCombo.setBackground(red);
 			valid = false;
-		}// end if
+		}
 		return valid;
-	}// end checkInput
+	}
 
 	// set text field to white colour
 	public void setToWhite() {
@@ -177,7 +174,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		genderCombo.setBackground(Color.WHITE);
 		departmentCombo.setBackground(Color.WHITE);
 		fullTimeCombo.setBackground(Color.WHITE);
-	}// end setToWhite
+	}
 
 	// action performed
 	public void actionPerformed(ActionEvent e) {
@@ -188,14 +185,15 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 				addRecord();// add record to file
 				dispose();// dispose dialog
 				this.parent.changesMade = true;
-			}// end if
+			}
 			// else display message and set text fields to white colour
 			else {
 				JOptionPane.showMessageDialog(null, "Wrong values or format! Please check!");
 				setToWhite();
-			}// end else
-		}// end if
+			}
+		}
 		else if (e.getSource() == cancel)
 			dispose();// dispose dialog
-	}// end actionPerformed
-}// end class AddRecordDialog
+	}
+}
+
